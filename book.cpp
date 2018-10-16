@@ -106,8 +106,6 @@ istream &operator>>(istream &is, Book &book) {
   return is;
 }
 
-Book::Book() : id_number("100000000"), name(""), published_year(1000), number(0), state(false) {}
-
 bool Book::check_id_elem(const string &s) {
   for (int i = 0; i < s.length(); ++i) {
     const int digit = s[i] - '0';

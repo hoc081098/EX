@@ -68,6 +68,8 @@ int main() {
         break;
       case 7:
         cin >> list;
+        std::cout << "Danh sach sau khi nhap" << '\n';
+        list.ShowList();
         break;
     }
     cout << "\n\n";
@@ -178,8 +180,12 @@ void DeleteBook(List &list) {
 
   if (selection == 1) {
     list.RemoveFirst();
+    std::cout << "Danh sach sau khi xoa" << '\n';
+    list.ShowList();
   } else if (selection == 2) {
     list.RemoveLast();
+    std::cout << "Danh sach sau khi xoa" << '\n';
+    list.ShowList();
   } else if (selection == 3) {
     while (true) {
       try {
@@ -190,6 +196,8 @@ void DeleteBook(List &list) {
           continue;
         }
         list.RemoveAt(index);
+        std::cout << "Danh sach sau khi xoa" << '\n';
+        list.ShowList();
         break;
       } catch (const out_of_range &e) {
         cout << e.what() << '\n';
@@ -218,6 +226,8 @@ void UpdateBook(List &list) {
     getline(cin, id);
 
     list.UpdateById(id);
+    std::cout << "Danh sach sau khi cap nhat" << '\n';
+    list.ShowList();
   } else if (selection == 2) {
     cout << "Nhap ten doi tuong can cap nhat: ";
     string name;
@@ -225,6 +235,8 @@ void UpdateBook(List &list) {
     getline(cin, name);
 
     list.UpdateByName(name);
+    std::cout << "Danh sach sau khi cap nhat" << '\n';
+    list.ShowList();
   }
 }
 
@@ -250,8 +262,12 @@ void AddBook(List &list) {
 
   if (selection == 1) {
     list.AddFirst(book);
+    std::cout << "Danh sach sau khi them" << '\n';
+    list.ShowList();
   } else if (selection == 2) {
     list.AddLast(book);
+    std::cout << "Danh sach sau khi them" << '\n';
+    list.ShowList();
   } else if (selection == 3) {
     while (true) {
       try {
@@ -262,6 +278,8 @@ void AddBook(List &list) {
           continue;
         }
         list.Add(index, book);
+        std::cout << "Danh sach sau khi them" << '\n';
+        list.ShowList();
         break;
       } catch (const out_of_range &e) {
         cout << e.what() << '\n';

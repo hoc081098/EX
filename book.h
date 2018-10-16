@@ -29,9 +29,9 @@ private:
     static void check_number(int number);
 
 public:
-    Book();
 
-    Book(const string &id_number, const string &name, int published_year, int number);
+    explicit Book(const string &id_number = "100000000", const string &name = "", int published_year = 1000,
+                  int number = 0);
 
     const string &get_id_number() const;
 
