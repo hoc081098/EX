@@ -152,7 +152,7 @@ ostream &operator<<(ostream &os, const List &list) {
 
 istream &operator>>(istream &is, List &list) {
   int size;
-  do {
+  while (true) {
     cout << "Nhap so luong danh sach (lon hon hoac bang 0): " << '\n';
     if (!(is >> size)) {
       is.clear();
@@ -161,8 +161,12 @@ istream &operator>>(istream &is, List &list) {
     }
     if (size < 0) {
       cout << "So luong danh sach phai lon hon hoac bang 0" << '\n';
+      continue;
     }
-  } while (size < 0);
+    if (size >= 0) {
+      break;
+    }
+  }
 
   list.clear();
 

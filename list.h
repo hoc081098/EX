@@ -10,6 +10,8 @@
 #include "functions.h"
 #include "book.h"
 
+using namespace std;
+
 class List {
 private:
     static const int GROWTH_FACTOR;
