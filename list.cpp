@@ -79,6 +79,7 @@ pair<Book *, size_t> List::BinarySearchByName(const string &name) const {
 void List::Add(int index, const Book &book) {
   Book *const found = FindBookById(book.get_id_number());
   if (found != NULL) {
+    std::cout << "Doi tuong sach da ton tai, tang so luong len 1" << '\n';
     found->set_number(found->get_number() + 1);
     return;
   }
@@ -102,9 +103,9 @@ void List::RemoveLast() {
 void List::RemoveAt(int index) {
   CheckIndex(index, 0, size);
 
-  Book *const found = FindBookById(books[index].get_id_number());
-  if (found != NULL && found->get_number() > 1) {
-    found->set_number(found->get_number() - 1);
+  if (books[index].get_number() > 1) {
+    std::cout << "Doi tuong sach da ton tai, giam so luong xuong 1" << '\n';
+    books[index].set_number(books[index].get_number() - 1);
     return;
   }
 
@@ -121,9 +122,7 @@ void List::RemoveAt(int index) {
   }
 }
 
-const size_t List::get_size() const {
-  return size;
-}
+const size_t List::get_size() const { return size; }
 
 List &List::operator=(const List &other) {
   if (this != &other) {
@@ -142,7 +141,7 @@ List &List::operator=(const List &other) {
 ostream &operator<<(ostream &os, const List &list) {
   os << "List: size = " << list.size << ", books = [\n";
   for (int i = 0; i < list.size; ++i) {
-    os << "    " << list.books[i];
+    os << "    " << i << ". " << list.books[i];
     if (i < list.size - 1) {
       os << ',';
     }

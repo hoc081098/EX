@@ -27,13 +27,13 @@ int main() {
   List list;
 
   list.AddLast(Book("122222226", "name4", 2000, 44));
-//  list.AddLast(Book("122222225", "name4", 2000, 23));
-//  list.AddLast(Book("122222222", "name4", 2000, 44));
   list.AddLast(Book("122222222", "name1", 2000, 20));
-//  list.AddLast(Book("122222223", "name2", 2000, 2));
-//  list.AddLast(Book("122222224", "name3", 2000, 0));
-//  list.AddLast(Book("122222220", "name6", 2000, 9999));
-//  list.AddLast(Book("199999999", "name7", 2000, 99));
+  /*list.AddLast(Book("122222225", "name4", 2000, 23));
+  list.AddLast(Book("122222222", "name4", 2000, 44));
+  list.AddLast(Book("122222223", "name2", 2000, 2));
+  list.AddLast(Book("122222224", "name3", 2000, 0));
+  list.AddLast(Book("122222220", "name6", 2000, 9999));
+  list.AddLast(Book("199999999", "name7", 2000, 99));*/
 
   while (true) {
     ShowSelections();
