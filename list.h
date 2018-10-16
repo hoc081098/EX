@@ -113,6 +113,7 @@ public:
       for (int i = 0; i < size; ++i) {
         if (target == selector(books[i])) {
           books[i].update();
+          cin.ignore();
         }
       }
     }

@@ -15,7 +15,7 @@ void UpdateBook(List &list);
 
 void DeleteBook(List &list);
 
-void SearchBook(List &list);
+void SearchBook(List list);
 
 void Sort(List &list);
 
@@ -26,10 +26,10 @@ void PrintSearchResult(const pair<Book *, size_t> &res);
 int main() {
   List list;
 
-//  list.AddLast(Book("122222226", "name4", 2000, 44));
+  list.AddLast(Book("122222226", "name4", 2000, 44));
 //  list.AddLast(Book("122222225", "name4", 2000, 23));
 //  list.AddLast(Book("122222222", "name4", 2000, 44));
-//  list.AddLast(Book("122222222", "name1", 2000, 20));
+  list.AddLast(Book("122222222", "name1", 2000, 20));
 //  list.AddLast(Book("122222223", "name2", 2000, 2));
 //  list.AddLast(Book("122222224", "name3", 2000, 0));
 //  list.AddLast(Book("122222220", "name6", 2000, 9999));
@@ -68,7 +68,7 @@ int main() {
         break;
       case 7:
         cin >> list;
-        std::cout << "Danh sach sau khi nhap" << '\n';
+        cout << "Danh sach sau khi nhap" << '\n';
         list.ShowList();
         break;
     }
@@ -78,7 +78,7 @@ int main() {
   return 0;
 }
 
-void SearchBook(List &list) {
+void SearchBook(List list) {
   cout << "Chon thuoc tinh de tim kiem:" << '\n';
   cout << " 1. Tim kiem bang ma sach" << '\n';
   cout << " 2. Tim kiem bang ten" << '\n';
@@ -96,11 +96,6 @@ void SearchBook(List &list) {
   }
 
   if (selection == 1) {
-    cout << "Can sap xep danh sach theo ma sach truoc khi tim kiem? (y/n) ";
-    char agree;
-    cin >> agree;
-    if (agree != 'y') return;
-
     list.QuickSortByIdAscending();
 
     string id;
@@ -110,11 +105,6 @@ void SearchBook(List &list) {
 
     PrintSearchResult(list.BinarySearchById(id));
   } else if (selection == 2) {
-    cout << "Can sap xep danh sach theo ten sach truoc khi tim kiem? (y/n) ";
-    char agree;
-    cin >> agree;
-    if (agree != 'y') return;
-
     list.QuickSortByNameAscending();
 
     string name;
@@ -124,11 +114,6 @@ void SearchBook(List &list) {
 
     PrintSearchResult(list.BinarySearchByName(name));
   } else if (selection == 3) {
-    cout << "Can sap xep danh sach theo so luong truoc khi tim kiem? (y/n) ";
-    char agree;
-    cin >> agree;
-    if (agree != 'y') return;
-
     list.QuickSort(compare_book_by_number_ascending);
 
     int number;
@@ -137,11 +122,6 @@ void SearchBook(List &list) {
 
     PrintSearchResult(list.BinarySearch(number, select_number, compare_int_ascending));
   } else if (selection == 4) {
-    cout << "Can sap xep danh sach theo nam xuat ban truoc khi tim kiem? (y/n) ";
-    char agree;
-    cin >> agree;
-    if (agree != 'y') return;
-
     list.QuickSort(compare_book_by_published_year_ascending);
 
     int published_year;
@@ -180,11 +160,11 @@ void DeleteBook(List &list) {
 
   if (selection == 1) {
     list.RemoveFirst();
-    std::cout << "Danh sach sau khi xoa" << '\n';
+    cout << "Danh sach sau khi xoa" << '\n';
     list.ShowList();
   } else if (selection == 2) {
     list.RemoveLast();
-    std::cout << "Danh sach sau khi xoa" << '\n';
+    cout << "Danh sach sau khi xoa" << '\n';
     list.ShowList();
   } else if (selection == 3) {
     while (true) {
@@ -196,7 +176,7 @@ void DeleteBook(List &list) {
           continue;
         }
         list.RemoveAt(index);
-        std::cout << "Danh sach sau khi xoa" << '\n';
+        cout << "Danh sach sau khi xoa" << '\n';
         list.ShowList();
         break;
       } catch (const out_of_range &e) {
@@ -209,13 +189,15 @@ void DeleteBook(List &list) {
 void UpdateBook(List &list) {
   cout << " 1. Cap nhat bang ma sach" << '\n';
   cout << " 2. Cap nhat bang ten" << '\n';
+  cout << " 3. Cap nhat bang so luong" << '\n';
+  cout << " 4. Cap nhat bang nam xuat ban" << '\n';
   cout << "    Nhap bat ki de thoat muc nay" << '\n';
 
   int selection;
   if (!(cin >> selection)) {
     return ClearInputStream();
   }
-  if (!(1 <= selection && selection <= 2)) {
+  if (!(1 <= selection && selection <= 4)) {
     return;
   }
 
@@ -226,7 +208,7 @@ void UpdateBook(List &list) {
     getline(cin, id);
 
     list.UpdateById(id);
-    std::cout << "Danh sach sau khi cap nhat" << '\n';
+    cout << "Danh sach sau khi cap nhat" << '\n';
     list.ShowList();
   } else if (selection == 2) {
     cout << "Nhap ten doi tuong can cap nhat: ";
@@ -235,7 +217,25 @@ void UpdateBook(List &list) {
     getline(cin, name);
 
     list.UpdateByName(name);
-    std::cout << "Danh sach sau khi cap nhat" << '\n';
+    cout << "Danh sach sau khi cap nhat" << '\n';
+    list.ShowList();
+  } else if (selection == 3) {
+    cout << "Nhap so luong doi tuong can cap nhat: ";
+    int number;
+    cin >> number;
+
+    cin.ignore();
+    list.Update(number, select_number);
+    cout << "Danh sach sau khi cap nhat" << '\n';
+    list.ShowList();
+  } else if (selection == 4) {
+    cout << "Nhap nam xuat ban doi tuong can cap nhat: ";
+    int published_year;
+    cin >> published_year;
+
+    cin.ignore();
+    list.Update(published_year, select_published_year);
+    cout << "Danh sach sau khi cap nhat" << '\n';
     list.ShowList();
   }
 }
@@ -262,11 +262,11 @@ void AddBook(List &list) {
 
   if (selection == 1) {
     list.AddFirst(book);
-    std::cout << "Danh sach sau khi them" << '\n';
+    cout << "Danh sach sau khi them" << '\n';
     list.ShowList();
   } else if (selection == 2) {
     list.AddLast(book);
-    std::cout << "Danh sach sau khi them" << '\n';
+    cout << "Danh sach sau khi them" << '\n';
     list.ShowList();
   } else if (selection == 3) {
     while (true) {
@@ -278,7 +278,7 @@ void AddBook(List &list) {
           continue;
         }
         list.Add(index, book);
-        std::cout << "Danh sach sau khi them" << '\n';
+        cout << "Danh sach sau khi them" << '\n';
         list.ShowList();
         break;
       } catch (const out_of_range &e) {
@@ -294,17 +294,16 @@ void ClearInputStream() {
 }
 
 void ShowSelections() {
-  cout
-      << "======================================================================================================"
-      << '\n';
-  cout << " 1. Hien thi danh sach doi tuong" << '\n';
-  cout << " 2. Them doi tuong" << '\n';
-  cout << " 3. Cap nhap thong tin doi tuong" << '\n';
-  cout << " 4. Xoa doi tuong" << '\n';
-  cout << " 5. Tim kiem doi tuong" << '\n';
-  cout << " 6. Sap xep danh sach" << '\n';
-  cout << " 7. Nhap moi hoan toan danh sach" << '\n';
-  cout << "    Phim bat ki de thoat chuong trinh" << '\n';
+  cout << "*****************************************\n";
+  cout << "* 1. Hien thi danh sach doi tuong       *\n";
+  cout << "* 2. Them doi tuong                     *\n";
+  cout << "* 3. Cap nhap thong tin doi tuong       *\n";
+  cout << "* 4. Xoa doi tuong                      *\n";
+  cout << "* 5. Tim kiem doi tuong                 *\n";
+  cout << "* 6. Sap xep danh sach                  *\n";
+  cout << "* 7. Nhap moi hoan toan danh sach       *\n";
+  cout << "*    Phim bat ki de thoat chuong trinh  *\n";
+  cout << "*****************************************\n";
 }
 
 void Sort(List &list) {

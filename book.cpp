@@ -73,6 +73,7 @@ istream &operator>>(istream &is, Book &book) {
       cout << e.what() << '\n';
     }
   }
+
   while (true) {
     try {
       cout << "Nam xuat ban: ";
@@ -88,6 +89,7 @@ istream &operator>>(istream &is, Book &book) {
       cout << e.what() << '\n';
     }
   }
+
   while (true) {
     try {
       cout << "So luong: ";
