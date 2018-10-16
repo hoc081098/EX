@@ -109,13 +109,10 @@ istream &operator>>(istream &is, Book &book) {
 }
 
 bool Book::check_id_elem(const string &s) {
-  for (int i = 0; i < s.length(); ++i) {
-    const int digit = s[i] - '0';
-    if (!(0 <= digit && digit <= 9)) {
-      return false;
-    }
-  }
-  return true;
+  return all_of(s.cbegin(), s.cend(), [](char c) {
+      const int digit = c - '0';
+      return 0 <= digit && digit <= 9;
+  });
 }
 
 void Book::check_id(const string &id_number) {

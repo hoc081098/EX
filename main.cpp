@@ -26,14 +26,14 @@ void PrintSearchResult(const pair<Book *, size_t> &res);
 int main() {
   List list;
 
-  /*list.AddLast(Book("122222226", "name4", 2000, 44));
-  list.AddLast(Book("122222222", "name1", 2000, 20));
+  list.AddLast(Book("122222226", "name4", 2000, 44));
   list.AddLast(Book("122222225", "name4", 2000, 23));
   list.AddLast(Book("122222222", "name4", 2000, 44));
+  list.AddLast(Book("122222222", "name1", 2000, 20));
   list.AddLast(Book("122222223", "name2", 2000, 2));
   list.AddLast(Book("122222224", "name3", 2000, 0));
   list.AddLast(Book("122222220", "name6", 2000, 9999));
-  list.AddLast(Book("199999999", "name7", 2000, 99));*/
+  list.AddLast(Book("199999999", "name7", 2000, 99));
 
   while (true) {
     ShowSelections();
@@ -120,7 +120,8 @@ void SearchBook(List list) {
     cout << "Nhap so luong can tim kiem: ";
     cin >> number;
 
-    PrintSearchResult(list.BinarySearch(number, select_number, compare_int_ascending));
+    const function<const int &(const Book &)> &f_select_number = select_number;
+    PrintSearchResult(list.BinarySearch(number, f_select_number));
   } else if (selection == 4) {
     list.QuickSort(compare_book_by_published_year_ascending);
 
@@ -128,7 +129,8 @@ void SearchBook(List list) {
     cout << "Nhap nam xuat ban can tim kiem: ";
     cin >> published_year;
 
-    PrintSearchResult(list.BinarySearch(published_year, select_published_year, compare_int_ascending));
+    const function<const int &(const Book &)> &f_select_published_year = select_published_year;
+    PrintSearchResult(list.BinarySearch(published_year, f_select_published_year));
   }
 }
 

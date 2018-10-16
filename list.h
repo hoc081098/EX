@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <functional>
 #include "functions.h"
 #include "book.h"
 
@@ -21,13 +22,12 @@ private:
     int capacity;
     size_t size;
 
-    static void QuickSort(Book *books, int L, int H,
-                          bool compare(const Book &, const Book &));
+    static void QuickSort(Book *books, int L, int H, const function<bool(const Book &, const Book &)> &compare);
 
     template<typename V>
     static int LowerBound(Book *pBook, int start, int end, const V &target,
-                          const V &selector(const Book &book),
-                          bool compare(const V &a, const V &b)) {
+                          const function<const V &(const Book &)> &selector,
+                          const function<bool(const V &, const V &)> &compare) {
       int low = 0, high = end - 1;
       int start_index = -1;
       while (low <= high) {
@@ -48,8 +48,8 @@ private:
 
     template<typename V>
     static int UpperBound(Book *pBook, int start, int end, const V &target,
-                          const V &selector(const Book &book),
-                          bool compare(const V &a, const V &b)) {
+                          const function<const V &(const Book &)> &selector,
+                          const function<bool(const V &, const V &)> &compare) {
       int end_index = -1;
       int low = 0;
       int high = end - 1;
@@ -73,17 +73,17 @@ private:
     static pair<Book *, size_t>
     BinarySearch(Book *pBook, int start, int end,
                  const V &target,
-                 const V &selector(const Book &book),
-                 bool compare(const V &a, const V &b)
+                 const function<const V &(const Book &)> &selector,
+                 const function<bool(const V &, const V &)> &compare
     ) {
       const int startIndex = LowerBound(pBook, start, end, target, selector, compare);
       const int endIndex = UpperBound(pBook, start, end, target, selector, compare);
 
       if (startIndex != -1 && endIndex != -1) {
-        const size_t size = static_cast<const size_t>(endIndex - startIndex + 1);
-        return make_pair(pBook + startIndex, size);
+        const auto size = static_cast<const size_t>(endIndex - startIndex + 1);
+        return {pBook + startIndex, size};
       } else {
-        return make_pair((Book *) NULL, 0);
+        return {nullptr, 0};
       }
     }
 
@@ -136,11 +136,13 @@ public:
 
     template<typename V>
     pair<Book *, size_t>
-    BinarySearch(const V &target, const V &selector(const Book &book), bool compare(const V &a, const V &b)) const {
+    BinarySearch(const V &target,
+                 const function<const V &(const Book &)> &selector,
+                 const function<bool(const V &, const V &)> &compare = less<>()) const {
       return List::BinarySearch(books, 0, size, target, selector, compare);
     }
 
-    void QuickSort(bool compare(const Book &, const Book &));
+    void QuickSort(const function<bool(const Book &, const Book &)> &compare);
 
     void QuickSortByIdAscending();
 

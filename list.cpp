@@ -20,38 +20,32 @@ List::List() {
   books = new Book[capacity];
 }
 
-List::~List() {
-  delete[] books;
-}
+List::~List() { delete[] books; }
 
 void List::ShowList() const {
   cout << *this;
 }
 
-void List::AddLast(const Book &book) {
-  Add(size, book);
-}
+void List::AddLast(const Book &book) { Add(size, book); }
 
 void List::EnsureCapacity() {
   if (size == capacity) {
     capacity *= GROWTH_FACTOR;
 
-    Book *const temp = new Book[capacity];
+    const auto temp = new Book[capacity];
     copy(books, books + size, temp);
     delete[](books);
     books = temp;
   }
 }
 
-void List::AddFirst(const Book &book) {
-  Add(0, book);
-}
+void List::AddFirst(const Book &book) { Add(0, book); }
 
-void List::QuickSort(Book *pBook, const int L, const int H, bool (*compare)(const Book &, const Book &)) {
+void List::QuickSort(Book *pBook, int L, int H, const function<bool(const Book &, const Book &)> &compare) {
   if (L >= H) return;
   int low = L;
   int high = H;
-  const Book pivot = pBook[low + (high - low) / 2];
+  const auto pivot = pBook[low + (high - low) / 2];
 
   do {
     while (compare(pBook[low], pivot)) ++low;
@@ -68,18 +62,19 @@ void List::QuickSort(Book *pBook, const int L, const int H, bool (*compare)(cons
   QuickSort(pBook, low, H, compare);
 }
 
-void List::QuickSort(bool compare(const Book &, const Book &)) {
+void List::QuickSort(const function<bool(const Book &, const Book &)> &compare) {
   List::QuickSort(books, 0, size - 1, compare);
 }
 
 pair<Book *, size_t> List::BinarySearchByName(const string &name) const {
-  return BinarySearch(name, select_name, compare_string_ascending);
+  const function<const string &(const Book &)> &f_select_name = select_name;
+  return BinarySearch(name, f_select_name);
 }
 
 void List::Add(int index, const Book &book) {
-  Book *const found = FindBookById(book.get_id_number());
-  if (found != NULL) {
-    std::cout << "Doi tuong sach da ton tai, tang so luong len 1" << '\n';
+  const auto found = FindBookById(book.get_id_number());
+  if (found != nullptr) {
+    cout << "Doi tuong sach da ton tai, tang so luong len 1" << '\n';
     found->set_number(found->get_number() + 1);
     return;
   }
@@ -92,19 +87,15 @@ void List::Add(int index, const Book &book) {
   ++size;
 }
 
-void List::RemoveFirst() {
-  RemoveAt(0);
-}
+void List::RemoveFirst() { RemoveAt(0); }
 
-void List::RemoveLast() {
-  RemoveAt(size - 1);
-}
+void List::RemoveLast() { RemoveAt(size - 1); }
 
 void List::RemoveAt(int index) {
   CheckIndex(index, 0, size);
 
   if (books[index].get_number() > 1) {
-    std::cout << "Doi tuong sach da ton tai, giam so luong xuong 1" << '\n';
+    cout << "Doi tuong sach da ton tai, giam so luong xuong 1" << '\n';
     books[index].set_number(books[index].get_number() - 1);
     return;
   }
@@ -129,7 +120,7 @@ List &List::operator=(const List &other) {
     if (other.size != size) {
       delete[] books;
       size = 0;
-      books = NULL;
+      books = nullptr;
       books = new Book[other.size];
       size = other.size;
     }
@@ -191,16 +182,15 @@ istream &operator>>(istream &is, List &list) {
 }
 
 pair<Book *, size_t> List::BinarySearchById(const string &id) const {
-  return BinarySearch(id, select_id_number, compare_string_ascending);
+  const function<const string &(const Book &)> &f_select_id_number = select_id_number;
+  return BinarySearch(id, f_select_id_number);
 }
 
 Book *const List::FindBookById(const string &id) const {
-  for (int i = 0; i < size; ++i) {
-    if (books[i].get_id_number() == id) {
-      return &books[i];
-    }
-  }
-  return NULL;
+  const auto found = find_if(books, books + size, [&id](const Book &book) {
+      return book.get_id_number() == id;
+  });
+  return found == books + size ? nullptr : found;
 }
 
 Book &List::operator[](size_t index) {
@@ -215,9 +205,7 @@ const Book &List::operator[](size_t index) const {
 
 void List::CheckIndex(int index, int start, int end) const {
   if (!(start <= index && index <= end - 1)) {
-    ostringstream oss;
-    oss << "Chi so phai trong doan " << start << ".." << end - 1;
-    throw out_of_range(oss.str());
+    throw out_of_range("Chi so phai trong doan " + to_string(start) + ".." + to_string(end - 1));
   }
 }
 
