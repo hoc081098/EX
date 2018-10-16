@@ -154,7 +154,7 @@ ostream &operator<<(ostream &os, const List &list) {
 istream &operator>>(istream &is, List &list) {
   int size;
   do {
-    cout << "Nhap so luong danh sach: " << '\n';
+    cout << "Nhap so luong danh sach (lon hon hoac bang 0): " << '\n';
     if (!(is >> size)) {
       is.clear();
       is.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -213,7 +213,7 @@ const Book &List::operator[](size_t index) const {
 void List::CheckIndex(int index, int start, int end) const {
   if (!(start <= index && index <= end - 1)) {
     ostringstream oss;
-    oss << "Index phai trong doan " << start << ".." << end - 1;
+    oss << "Chi so phai trong doan " << start << ".." << end - 1;
     throw out_of_range(oss.str());
   }
 }

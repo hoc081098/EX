@@ -52,7 +52,7 @@ istream &operator>>(istream &is, Book &book) {
 
   while (true) {
     try {
-      cout << "Ma sach: ";
+      cout << "Ma sach (9 chu so, chu so dau tien trong 1..5, 8 chu so con lai trong 0..9): \n";
       string id_number;
       getline(is, id_number);
       book.set_id_number(id_number);
@@ -76,7 +76,7 @@ istream &operator>>(istream &is, Book &book) {
 
   while (true) {
     try {
-      cout << "Nam xuat ban: ";
+      cout << "Nam xuat ban (trong 1000..9999): ";
       int published_year;
       if (!(is >> published_year)) {
         is.clear();
@@ -92,7 +92,7 @@ istream &operator>>(istream &is, Book &book) {
 
   while (true) {
     try {
-      cout << "So luong: ";
+      cout << "So luong (lon hon hoac bang 0): ";
       int number;
       if (!(is >> number)) {
         is.clear();
